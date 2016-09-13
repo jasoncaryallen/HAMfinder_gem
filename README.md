@@ -37,7 +37,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+COMING SOON! Check back after Wednesday, 14 September, 2016.
 
 ## Development
 
