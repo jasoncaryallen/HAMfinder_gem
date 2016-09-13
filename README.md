@@ -41,7 +41,7 @@ COMING SOON! Check back after Wednesday, 14 September, 2016.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/jasonallenphotography/hamfinder. This project is intended to be a welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jasonallenphotography/HAMfinder_gem. This project is intended to be a welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
