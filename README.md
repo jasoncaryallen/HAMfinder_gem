@@ -1,8 +1,23 @@
-# Hamfinder
+# HAMfinder
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hamfinder`. To experiment with that code, run `bin/console` for an interactive prompt.
+HAMfinder is a Ruby gem built to make developing Sinatra, Rails, and Ruby-based amateur radio programs easier to develop.
 
-TODO: Delete this and the text above, and describe your gem
+Querying [Repeaterbook.com's](http://www.repeaterbook.com) data using application-defined criteria, this gem returns a collection of repeaters matching the criteria as JSON objects - conveniently named by their callsigns! For example, here is a record for a 2 meter band repeater near me in Washington, DC:
+
+```ruby
+{:K4DCA=>
+  {:frequency=>"145.1100",
+   :offset=>"-0.6MHz",
+   :tone=>"CC1",
+   :call=>"K4DCA",
+   :location=>"Washington",
+   :state=>"DC",
+   :usage=>"OPEN",
+   :voip=>"",
+   :distance=>"0.8",
+   :direction=>"S"}}
+```
+
 
 ## Installation
 
