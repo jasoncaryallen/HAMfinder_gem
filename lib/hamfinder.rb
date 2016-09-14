@@ -7,28 +7,36 @@ module Hamfinder
 			radius = set_radius(options[:radius])
 			zip = options[:zip]
 			url = "https://www.repeaterbook.com/repeaters/prox_result.php?city=#{zip}&distance=#{radius}&Dunit=m#{band}&status_id=1&use=OPEN"
-		# binding.pry
 			parse(url)
 		end
 
 		private
 
 		def parse(url)
-			#queries data from Repeaterbook.com
+			# Captures the queried URL from Repeaterbook.com
 			doc = Nokogiri::HTML(open(url))
 
-			# scrapes dirty data <td> tags from HTML table
-			# source is improperly drawn without opening <tr> tags
+			# This scrapes dirty data from HTML table -
+			# the source is improperly drawn without opening <tr> tags
+			# so we collect all of the orphaned <td> children of <table>
 		  all_tds = doc.xpath('//table/td').map {|content| content.text }
 		  
 		  if all_tds.empty?
+		  	# Capturing error messages from the source
+		  	# if no results are found
+				error_message = {}
 				error = doc.xpath('//center/b').map {|content| content.text }	
-				error.to_json
+				error_message[:error] = "#{error}"
 			else
-			  # Sanitizes non-breaking space characters, linebreaks, and spaces throughout table data
+			  # Sanitizes non-breaking space characters,
+			  # linebreaks, and spaces throughout table data
+			  # introduced by source
 			  	tidy_tds = sanitize(all_tds)
-			  # Organizes the data by row into an array
+			  
+			  # Organizes the data from the orphaned <td>s 
+			  # by row into an array
 			  	repeater_array = organize(tidy_tds)
+			  
 			  # Parse to JSON FORMAT and return
 			  	generate_JSON(repeater_array)
 			end
@@ -100,5 +108,4 @@ module Hamfinder
 		end
 
 	end #parser
-
 end #module
