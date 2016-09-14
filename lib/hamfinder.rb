@@ -5,8 +5,8 @@ module Hamfinder
 		def query(options = {})
 			band = band_selection(options[:band])
 			radius = set_radius(options[:radius])
-			zip = options[:zip]
-			url = "https://www.repeaterbook.com/repeaters/prox_result.php?city=#{zip}&distance=#{radius}&Dunit=m#{band}&status_id=1&use=OPEN"
+			zip = set_zip(options[:zip])
+			url = "https://www.repeaterbook.com/repeaters/prox_result.php?#{zip}#{radius}#{band}&status_id=1"
 			parse(url)
 		end
 
@@ -28,64 +28,13 @@ module Hamfinder
 				error = doc.xpath('//center/b').map {|content| content.text }	
 				error_message[:error] = "#{error}"
 			else
-			  # Sanitizes non-breaking space characters,
-			  # linebreaks, and spaces throughout table data
-			  # introduced by source
-			  	tidy_tds = sanitize(all_tds)
-			  
-			  # Organizes the data from the orphaned <td>s 
-			  # by row into an array
-			  	repeater_array = organize(tidy_tds)
-			  
-			  # Parse to JSON FORMAT and return
-			  	generate_JSON(repeater_array)
+		  	tidy_tds = sanitize(all_tds)
+		  	repeater_array = organize(tidy_tds)
+		  	generate_JSON(repeater_array)
 			end
 		end
 
-		def generate_JSON(data)
-			output = {}
-				data.each do |repeater|
-		     r = {frequency: "#{repeater[0]}",
-				      offset:    "#{repeater[1]}",
-				      tone:      "#{repeater[2]}",
-				      call:      "#{repeater[3]}",
-				      location:  "#{repeater[4]}",
-				      state:     "#{repeater[5]}",
-				      usage:     "#{repeater[6]}",
-				      voip:      "#{repeater[7]}",
-				      distance:  "#{repeater[8]}",
-				      direction: "#{repeater[9]}"}
-				output[repeater[3].to_sym] = r
-				end
-			output
-		end
-
-		def sanitize(collection)
-		  collection.each do |td|
-		    td.gsub!("\u00A0", "")
-		    td.gsub!("\n", "")
-		    td.delete!(" ")
-		  end
-		end
-
-		def organize(collection)
-			data = []
-		    until collection.empty?
-		      row = collection.shift(11)
-		      row.pop
-		      data << row
-		    end
-		  data
-		end
-
-		def set_radius(radius)
-			if radius > 0 && radius <= 200
-				return radius
-			else
-				return 25
-			end
-		end
-
+		# returns band parameter for URL
 		def band_selection(band)
 			case band
 				when "10m"   
@@ -105,6 +54,62 @@ module Hamfinder
 				else
 					return "&band=14"
 			end			
+		end
+
+		# returns only valid user-defined radius OR 25mi for radius parameter for URL
+		def set_radius(radius)
+			if radius > 0 && radius <= 200
+				return "&distance=#{radius}&Dunit=m"
+			else
+				return "&distance=25&Dunit=m"
+			end
+		end
+
+		# returns city parameter for URL
+		def set_zip(zip)
+			return "city=#{zip}"
+		end
+
+		# Sanitizes non-breaking space characters,
+		# linebreaks, and spaces throughout table data
+		# introduced by source
+		def sanitize(collection)
+		  collection.each do |td|
+		    td.gsub!("\u00A0", "")
+		    td.gsub!("\n", "")
+		    td.delete!(" ")
+		  end
+		end
+
+		# Organizes the data from the orphaned <td>s 
+		# by row into an array
+		def organize(collection)
+			data = []
+		    until collection.empty?
+		      row = collection.shift(11)
+		      row.pop
+		      data << row
+		    end
+		  data
+		end
+
+		# Parse to JSON FORMAT and return
+		def generate_JSON(data)
+			output = {}
+				data.each do |repeater|
+		     r = {frequency: "#{repeater[0]}",
+				      offset:    "#{repeater[1]}",
+				      tone:      "#{repeater[2]}",
+				      call:      "#{repeater[3]}",
+				      location:  "#{repeater[4]}",
+				      state:     "#{repeater[5]}",
+				      usage:     "#{repeater[6]}",
+				      voip:      "#{repeater[7]}",
+				      distance:  "#{repeater[8]}",
+				      direction: "#{repeater[9]}"}
+				output[repeater[3].to_sym] = r
+				end
+			output
 		end
 
 	end #parser
