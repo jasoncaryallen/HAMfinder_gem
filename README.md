@@ -1,6 +1,7 @@
-# HAMfinder
+# HAMfinder   [![Build Status](https://travis-ci.org/jasonallenphotography/HAMfinder_gem.svg?branch=master)](https://travis-ci.org/jasonallenphotography/HAMfinder_gem)  [![codecov](https://codecov.io/gh/jasonallenphotography/HAMfinder_gem/branch/master/graph/badge.svg)](https://codecov.io/gh/jasonallenphotography/HAMfinder_gem)
 
-HAMfinder is a Ruby gem built to make developing Sinatra, Rails, and Ruby-based amateur radio programs easier to develop.
+
+HAMfinder is a Ruby gem built to make developing Ruby on Rails-based amateur radio programs easier to develop.
 
 Querying [Repeaterbook.com's](http://www.repeaterbook.com) data using application-defined criteria, this gem returns a collection of repeaters matching the criteria as JSON objects - conveniently named by their callsigns! For example, here is a record for a 2 meter band repeater near me in Washington, DC:
 
