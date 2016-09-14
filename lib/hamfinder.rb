@@ -4,7 +4,7 @@ module Hamfinder
 	class Parser
 		def query(options = {})
 			band = band_selection(options[:band])
-			radius = set_radius(options[:radius])
+			options[:radius] ? radius = set_radius(options[:radius]) : radius = "&distance=10&Dunit=m"
 			zip = set_zip(options[:zip])
 			url = "https://www.repeaterbook.com/repeaters/prox_result.php?#{zip}#{radius}#{band}&status_id=1"
 			parse(url)
@@ -61,7 +61,7 @@ module Hamfinder
 			if radius > 0 && radius <= 200
 				return "&distance=#{radius}&Dunit=m"
 			else
-				return "&distance=25&Dunit=m"
+				return "&distance=10&Dunit=m"
 			end
 		end
 

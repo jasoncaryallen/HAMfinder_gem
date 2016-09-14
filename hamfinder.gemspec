@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Jason Allen"]
   spec.email         = ["jasoncaryallen@gmail.com"]
 
-  spec.summary       = %q{Return queried amateur radio repeater stations}
+  spec.summary       = %q{Return queried HAM radio repeater stations}
   spec.description   = %q{Querying Repeaterbook.com's data using application-defined criteria, this gem returns a collection of repeaters matching the criteria as JSON objects - conveniently named by their callsigns!}
   spec.homepage      = "https://github.com/jasonallenphotography/HAMfinder_gem"
   spec.license       = "MIT"
