@@ -34,7 +34,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.13)
   hamfinder!
-  rake (~> 10.0)
+  rake
   rspec (~> 3.0)
 
 BUNDLED WITH
