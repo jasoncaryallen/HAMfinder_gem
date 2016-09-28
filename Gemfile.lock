@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hamfinder (0.2)
+    hamfinder (0.2.2)
       json (~> 1.8)
       nokogiri (~> 1.6)
 
