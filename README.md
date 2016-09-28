@@ -1,4 +1,5 @@
-# HAMfinder   [![Build Status](https://travis-ci.org/jasonallenphotography/HAMfinder_gem.svg?branch=master)](https://travis-ci.org/jasonallenphotography/HAMfinder_gem)  [![codecov](https://codecov.io/gh/jasonallenphotography/HAMfinder_gem/branch/master/graph/badge.svg)](https://codecov.io/gh/jasonallenphotography/HAMfinder_gem)  [![Gem Version](https://badge.fury.io/rb/hamfinder.svg)](https://badge.fury.io/rb/hamfinder)
+# HAMfinder   [![Build Status](https://travis-ci.org/jasonallenphotography/HAMfinder_gem.svg?branch=master)](https://travis-ci.org/jasonallenphotography/HAMfinder_gem)  [![codecov](https://codecov.io/gh/jasonallenphotography/HAMfinder_gem/branch/master/graph/badge.svg)](https://codecov.io/gh/jasonallenphotography/HAMfinder_gem)  [![Gem Version](https://badge.fury.io/rb/hamfinder.svg)](https://badge.fury.io/rb/hamfinder) [![Dependency Status](https://gemnasium.com/badges/github.com/jasonallenphotography/HAMfinder_gem.svg)](https://gemnasium.com/github.com/jasonallenphotography/HAMfinder_gem)
+
 
 
 HAMfinder is a Ruby gem built to make developing Ruby on Rails-based amateur radio programs easier to develop.
