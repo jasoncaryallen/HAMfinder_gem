@@ -2,7 +2,7 @@ require "hamfinder/version"
 
 module Hamfinder
 	class Parser
-		def query(options = {})
+		def self.query(options = {})
 			band = band_selection(options[:band])
 			options[:radius] ? radius = set_radius(options[:radius]) : radius = "&distance=10&Dunit=m"
 			zip = set_zip(options[:zip])
@@ -12,7 +12,7 @@ module Hamfinder
 
 		private
 
-		def parse(url)
+		def self.parse(url)
 			# Captures the queried URL from Repeaterbook.com
 			doc = Nokogiri::HTML(open(url))
 
@@ -30,12 +30,13 @@ module Hamfinder
 			else
 		  	tidy_tds = sanitize(all_tds)
 		  	repeater_array = organize(tidy_tds)
+		  	repeater_array.sort! {|x,y| x[8].to_f <=> y[8].to_f }
 		  	generate_JSON(repeater_array)
 			end
 		end
 
 		# returns band parameter for URL
-		def band_selection(band)
+		def self.band_selection(band)
 			case band
 				when "10m"   
 					return "&band=29"
@@ -57,7 +58,7 @@ module Hamfinder
 		end
 
 		# returns only valid user-defined radius OR 25mi for radius parameter for URL
-		def set_radius(radius)
+		def self.set_radius(radius)
 			if radius > 0 && radius <= 200
 				return "&distance=#{radius}&Dunit=m"
 			else
@@ -66,14 +67,14 @@ module Hamfinder
 		end
 
 		# returns city parameter for URL
-		def set_zip(zip)
+		def self.set_zip(zip)
 			return "city=#{zip}"
 		end
 
 		# Sanitizes non-breaking space characters,
 		# linebreaks, and spaces throughout table data
 		# introduced by source
-		def sanitize(collection)
+		def self.sanitize(collection)
 		  collection.each do |td|
 		    td.gsub!("\u00A0", "")
 		    td.gsub!("\n", "")
@@ -83,7 +84,7 @@ module Hamfinder
 
 		# Organizes the data from the orphaned <td>s 
 		# by row into an array
-		def organize(collection)
+		def self.organize(collection)
 			data = []
 		    until collection.empty?
 		      row = collection.shift(11)
@@ -94,8 +95,9 @@ module Hamfinder
 		end
 
 		# Parse to JSON FORMAT and return
-		def generate_JSON(data)
+		def self.generate_JSON(data)
 			output = {}
+			index = 0
 				data.each do |repeater|
 		     r = {frequency: "#{repeater[0]}",
 				      offset:    "#{repeater[1]}",
@@ -107,9 +109,10 @@ module Hamfinder
 				      voip:      "#{repeater[7]}",
 				      distance:  "#{repeater[8]}",
 				      direction: "#{repeater[9]}"}
-				output[repeater[3].to_sym] = r
+				output[index.to_s.to_sym] = r
+				index +=1
 				end
-			output
+			output.to_json
 		end
 
 	end #parser
