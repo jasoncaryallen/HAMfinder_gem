@@ -4,10 +4,10 @@
 
 HAMfinder is a Ruby gem built to make developing Ruby on Rails-based amateur radio programs easier to develop.
 
-Querying [Repeaterbook.com's](http://www.repeaterbook.com) data using application-defined criteria, this gem returns a collection of repeaters matching the criteria as JSON objects - conveniently named by their callsigns! For example, here is a record for a 2 meter band repeater near me in Washington, DC:
+Querying [Repeaterbook.com's](http://www.repeaterbook.com) data using application-defined criteria, this gem returns a collection of repeaters matching the criteria in JSON format - conveniently named sequentially, sorted by ascending proximity! For example, here is a record for a 2 meter band repeater near me in Washington, DC:
 
 ```ruby
-{:K4DCA=>
+{"1" =>
   {:frequency=>"145.1100",
    :offset=>"-0.6MHz",
    :tone=>"CC1",
@@ -39,16 +39,10 @@ Or install it yourself as:
 
 ## Usage
 
-When using HAMfinder, you must first instantiate a new parser in your application:
+Now you can use your HAMFinder's query method to retrieve data according to your provided parameters.
 
 ```ruby
-parser = Hamfinder::Parser.new
-```
-
-Now you can use your parser's query method to retrieve data according to your provided parameters.
-
-```ruby
-@results = parser.query( zip:"11232", radius:5, band:"2m" )
+@results = Hamfinder::Parser.query( zip:"11232", radius:5, band:"2m" )
 ```
 
 The `.query()` method accepts the following options:
@@ -73,27 +67,27 @@ The `band` parameter specifies the frequency band you wish to query, and must be
 Examples of output:
 ```ruby
 #10m band repeaters within 5 miles of 20009, Washington DC
-puts parser.query( zip:"20009", band:"10m", radius:5 )
+puts Hamfinder::Parser.query( zip:"20009", band:"10m", radius:5 )
 => ["NO REPEATERS FOUND WITHIN 5 MILES of 38.9191485, -77.0362967."]
 
 #2m band repeaters within 2 miles of 20009, Washington DC
-puts parser.query( zip:"20009", radius:2 )
-=> { :W3DOS=>{:frequency=>"145.1900", :offset=>"-0.6MHz", :tone=>"151.4", :call=>"W3DOS", 
-              :location=>"Washington,HarryS.TrumanBuilding", :state=>"DC", :usage=>"OPEN", 
-              :voip=>"", :distance=>"1.7", :direction=>"S"}, 
-     :W3AGB=>{:frequency=>"147.3600", :offset=>"+0.6MHz", :tone=>"", :call=>"W3AGB",
-              :location=>"Washington", :state=>"DC", :usage=>"OPEN",
-              :voip=>"", :distance=>"1.7", :direction=>"S"},
-     :K4DCA=>{:frequency=>"145.1100", :offset=>"-0.6MHz", :tone=>"CC1", :call=>"K4DCA", 
-              :location=>"Washington", :state=>"DC", :usage=>"OPEN",
-              :voip=>"", :distance=>"0.8", :direction=>"S"},
-     :K3MRC=>{:frequency=>"145.4300", :offset=>"-0.6MHz", :tone=>"114.8", :call=>"K3MRC", 
-              :location=>"Washington,D.C.", :state=>"DC", :usage=>"OPEN", 
-              :voip=>"", :distance=>"1.7", :direction=>"S"} }
+puts Hamfinder::Parser.query( zip:"20009", radius:2 )
+=> { "1" =>{:frequency=>"145.1100", :offset=>"-0.6MHz", :tone=>"CC1", :call=>"K4DCA", 
+          :location=>"Washington", :state=>"DC", :usage=>"OPEN",
+          :voip=>"", :distance=>"0.8", :direction=>"S"},
+     "2" =>{:frequency=>"145.1900", :offset=>"-0.6MHz", :tone=>"151.4", :call=>"W3DOS", 
+          :location=>"Washington,HarryS.TrumanBuilding", :state=>"DC", :usage=>"OPEN", 
+          :voip=>"", :distance=>"1.7", :direction=>"S"}, 
+     "3" =>{:frequency=>"147.3600", :offset=>"+0.6MHz", :tone=>"", :call=>"W3AGB",
+          :location=>"Washington", :state=>"DC", :usage=>"OPEN",
+          :voip=>"", :distance=>"1.7", :direction=>"S"},
+     "4" =>{:frequency=>"145.4300", :offset=>"-0.6MHz", :tone=>"114.8", :call=>"K3MRC", 
+          :location=>"Washington,D.C.", :state=>"DC", :usage=>"OPEN", 
+          :voip=>"", :distance=>"1.7", :direction=>"S"} }
 
 #2m band repeaters within a default 10 miles of 20009, Washington DC     
-puts parser.query( zip:"20009" )
-=> {:W4HFH=>{:frequency=>"147.3150", :offset=>"+0.6MHz", :tone=>"107.2", :call=>"W4HFH", 
+puts Hamfinder::Parser.query( zip:"20009" )
+=> { "1" =>{:frequency=>"147.3150", :offset=>"+0.6MHz", :tone=>"107.2", :call=>"W4HFH", 
              ...
 ```
 
