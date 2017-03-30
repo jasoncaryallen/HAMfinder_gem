@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    hamfinder (0.2.4)
-      json (~> 2.0.3)
-      nokogiri (~> 1.7.1)
+    hamfinder (0.2.5)
+      json (~> 2.0, >= 2.0.3)
+      nokogiri (~> 1.7, >= 1.7.1)
 
 GEM
   remote: https://rubygems.org/
